@@ -51,12 +51,19 @@ public class Graph {
     }
     
   // BFS implementation:
-    public static void breadthfirstSearch()
+
+    public static void breadthFirstSearch()
     {
         boolean visited[]=new boolean[v];
+        int count=1;
         for(int i=0;i<v;i++)
         {
+            if(!visited[i])
+            {
+                System.out.println("Starting of graph"+count+" : "+i );
          BFS(i,visited);
+            count++;
+            }
         }
     }
     public static void BFS(int node,boolean visited[])
@@ -66,21 +73,57 @@ public class Graph {
       q.add(node);
       while(!q.isEmpty())
       {
-       int temp=q.poll();
+       int curr=q.poll();
       
-       if(!visited[temp])
+       if(!visited[curr])
        {
-        System.out.println(temp);
-        visited[temp]=true;
-        for(int i=0;i<graph[temp].size();i++)
+        System.out.println(curr);
+        visited[curr]=true;
+        for(int i=0;i<graph[curr].size();i++)
         {
-          Edge e=graph[temp].get(i);
+          Edge e=graph[curr].get(i);
           q.add(e.dest);
         }
        }
 
       }
     }
+
+    // DFS Implementation:
+
+    public static void depthFirstSearch()
+    {
+        boolean visited[]=new boolean[v];
+        int count=1;
+        for(int i=0;i<v;i++)
+        {
+            if(!visited[i])
+            {
+                System.out.println("Starting of graph"+count+" : "+i );
+         DFS(i,visited);
+            count++;
+            }
+        }
+    }
+
+    public static void DFS(int curr,boolean visited[])
+    {
+        if(visited[curr])
+        {
+           return;
+        }
+        else
+        {
+            visited[curr]=true;
+            System.out.println(curr);
+            for(int i=0;i<graph[curr].size();i++)
+            {
+              Edge e=graph[curr].get(i);
+              DFS(e.dest,visited);
+            }
+        }
+    }
+    
     public static void main(String args[]) {
       Graph g=new Graph(5);
       addEdge(0,1,2);
@@ -89,8 +132,13 @@ public class Graph {
       addEdge(3,4,2);
       addEdge(2,4,4);
       print();
-      
-      breadthfirstSearch();
+      System.out.println();
+      System.out.println("BFS Implementation:");
+      breadthFirstSearch();
+      System.out.println();
+      System.out.println("DFS Implementation:");
+      depthFirstSearch();
+
       
     }
 }
