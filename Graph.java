@@ -123,14 +123,54 @@ public class Graph {
             }
         }
     }
-    
+
+    // print All Possible Path in Graph src to dest
+    public static void printSourceToDestination(int src,int dest)
+    {
+        System.out.println("All possible path from "+src+" to "+dest+" :");
+        boolean visited[]=new boolean[v];
+        String path="";
+        MDFS(src,dest,visited,path+Integer.toString(src));
+    }
+    public static void  MDFS(int src,int dest,boolean visited[],String path)
+    {
+       if(src==dest)
+       {
+        System.out.println(path);
+        return;
+       }
+       else
+       {
+        for(int i=0;i<graph[src].size();i++)
+            {
+              Edge e=graph[src].get(i);
+              if(!visited[e.dest])
+              {
+                visited[src]=true;
+              MDFS(e.dest,dest,visited,path+Integer.toString(e.dest));
+              visited[src]=false;
+              }
+            }
+       }
+    }
     public static void main(String args[]) {
-      Graph g=new Graph(5);
+      Graph g=new Graph(7);
       addEdge(0,1,2);
-      addEdge(1,2,3);
-      addEdge(2,1,5);
-      addEdge(3,4,2);
-      addEdge(2,4,4);
+      addEdge(0,2,3);
+      addEdge(1,3,5);
+      addEdge(2,4,2);
+      addEdge(3,4,4);
+      addEdge(3,5,5);
+      addEdge(4,5,2);
+      addEdge(5,6,4);
+      addEdge(4,3,4);
+      addEdge(1,0,2);
+      addEdge(3,1,4);
+      addEdge(2,0,4);
+      addEdge(6,5,4);
+      addEdge(5,4,2);
+      addEdge(5,3,2);
+      addEdge(3,1,5);
       print();
       System.out.println();
       System.out.println("BFS Implementation:");
@@ -138,6 +178,8 @@ public class Graph {
       System.out.println();
       System.out.println("DFS Implementation:");
       depthFirstSearch();
+      System.out.println();
+      printSourceToDestination(0,5);
 
       
     }
