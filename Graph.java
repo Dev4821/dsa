@@ -153,24 +153,47 @@ public class Graph {
             }
        }
     }
+    public static void isCycleDirected()
+    {
+        boolean rec[]=new boolean[v];
+        boolean vis[]=new boolean[v];
+        for(int i=0;i<v;i++)
+        {
+            if(!vis[i])
+            {
+               
+               System.out.println(  isCycleDirectedDFS(vis,rec,i));
+               break;
+             
+            }
+        }
+    }
+   public static boolean isCycleDirectedDFS(boolean vis[],boolean rec[],int curr)
+    {
+      vis[curr]=true;
+      rec[curr]=true;
+      for(int i=0;i<graph[curr].size();i++)
+      {
+        Edge e=graph[curr].get(i);
+        if(rec[e.dest])
+        {
+            return true;
+        }
+        if(!vis[e.dest] && isCycleDirectedDFS(vis,rec,e.dest))
+        {
+            return true;
+        }
+      }
+      rec[curr]=false;
+      return false;
+    }
+
     public static void main(String args[]) {
-      Graph g=new Graph(7);
-      addEdge(0,1,2);
-      addEdge(0,2,3);
-      addEdge(1,3,5);
-      addEdge(2,4,2);
-      addEdge(3,4,4);
-      addEdge(3,5,5);
-      addEdge(4,5,2);
-      addEdge(5,6,4);
-      addEdge(4,3,4);
-      addEdge(1,0,2);
-      addEdge(3,1,4);
-      addEdge(2,0,4);
-      addEdge(6,5,4);
-      addEdge(5,4,2);
-      addEdge(5,3,2);
-      addEdge(3,1,5);
+      Graph g=new Graph(4);
+      addEdge(1,0,4);
+      addEdge(3,0,3);
+      addEdge(2,3,2);
+      addEdge(0,2,1);
       print();
       System.out.println();
       System.out.println("BFS Implementation:");
@@ -179,8 +202,7 @@ public class Graph {
       System.out.println("DFS Implementation:");
       depthFirstSearch();
       System.out.println();
-      printSourceToDestination(0,5);
-
-      
+      printSourceToDestination(2,3);
+      isCycleDirected();
     }
 }
